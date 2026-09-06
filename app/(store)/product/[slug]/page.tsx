@@ -81,6 +81,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       metadataBase: new URL(siteUrl),
       title,
       description,
+      keywords: seoMeta?.keywords ? seoMeta.keywords.split(',').map((k: string) => k.trim()) : (product.tags && product.tags.length > 0 ? product.tags : undefined),
       alternates: {
         canonical: canonicalUrl,
       },

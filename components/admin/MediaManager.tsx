@@ -2,20 +2,20 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { 
-  X, 
-  Search, 
-  Upload, 
-  Image as ImageIcon, 
-  Check, 
-  Play, 
-  Trash2, 
-  Copy, 
-  Zap, 
-  CheckCircle2, 
-  Loader2, 
-  Edit, 
-  SlidersHorizontal, 
+import {
+  X,
+  Search,
+  Upload,
+  Image as ImageIcon,
+  Check,
+  Play,
+  Trash2,
+  Copy,
+  Zap,
+  CheckCircle2,
+  Loader2,
+  Edit,
+  SlidersHorizontal,
   Plus,
   Download,
   ShieldCheck,
@@ -264,7 +264,7 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
 
   const isMediaUsed = useCallback((item: MediaItem): boolean => {
     const normItemUrl = normalizeUrl(item.file_url);
-    
+
     // Direct normalized URL match
     if (usedNormUrls.has(normItemUrl)) return true;
 
@@ -328,7 +328,7 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
     return true;
   });
 
-  const cleanerUsed   = cleanerFiltered.filter(item => isMediaUsed(item));
+  const cleanerUsed = cleanerFiltered.filter(item => isMediaUsed(item));
   const cleanerUnused = cleanerFiltered.filter(item => !isMediaUsed(item));
 
   // Storage stats
@@ -710,10 +710,10 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
   const handleDownloadMedia = async (url: string, filename: string) => {
     try {
       toast.loading('Downloading media...', { id: 'downloading' });
-      
+
       // If it's a Supabase storage URL, append the ?download parameter
       // This forces the server to return Content-Disposition: attachment
-      const downloadUrl = url.includes('supabase.co') 
+      const downloadUrl = url.includes('supabase.co')
         ? `${url}${url.includes('?') ? '&' : '?'}download=${encodeURIComponent(filename)}`
         : url;
 
@@ -724,7 +724,7 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      
+
       toast.success('Media downloaded successfully', { id: 'downloading' });
     } catch (error) {
       console.error('Download failed', error);
@@ -820,14 +820,14 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
     if (!editingItem) return;
     try {
       const supabase = createClient();
-      const { error } = await supabase.from('media_library').update({ 
-        alt_text: editingItem.alt_text, 
-        title: editingItem.title, 
-        description: editingItem.description, 
-        caption: editingItem.caption, 
-        ai_enabled: editingItem.ai_enabled 
+      const { error } = await supabase.from('media_library').update({
+        alt_text: editingItem.alt_text,
+        title: editingItem.title,
+        description: editingItem.description,
+        caption: editingItem.caption,
+        ai_enabled: editingItem.ai_enabled
       }).eq('id', editingItem.id);
-      
+
       if (error) throw error;
       toast.success('Image details updated successfully');
       setEditingItem(null);
@@ -881,11 +881,10 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
             onToggle();
           }
         }}
-        className={`group relative aspect-square rounded-2xl overflow-hidden border-2 cursor-pointer flex flex-col justify-end transition-all ${
-          isSelected
+        className={`group relative aspect-square rounded-2xl overflow-hidden border-2 cursor-pointer flex flex-col justify-end transition-all ${isSelected
             ? 'border-blue-600 shadow-md ring-2 ring-blue-500/20'
             : 'border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
-        }`}
+          }`}
       >
         {/* Checkbox */}
         {showCheckbox && (
@@ -912,8 +911,8 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
         {isVideo ? (
           <>
             <video src={item.file_url} className="absolute inset-0 w-full h-full object-cover z-0" muted playsInline loop
-              onMouseOver={e => { try { e.currentTarget.play(); } catch {} }}
-              onMouseOut={e => { try { e.currentTarget.pause(); e.currentTarget.currentTime = 0; } catch {} }}
+              onMouseOver={e => { try { e.currentTarget.play(); } catch { } }}
+              onMouseOut={e => { try { e.currentTarget.pause(); e.currentTarget.currentTime = 0; } catch { } }}
             />
             <div className="absolute bottom-3 left-3 z-10 bg-black/60 px-1.5 py-0.5 rounded text-white text-[8px] font-bold tracking-wider">VIDEO</div>
             <div className="absolute inset-0 flex items-center justify-center bg-black/10">
@@ -1245,10 +1244,10 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
                   <span>Delete ({selectedIds.length})</span>
                 </button>
                 <button type="button" onClick={handleBulkGenerate} disabled={bulkGenerating}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 active:scale-95 disabled:bg-gray-100 dark:disabled:bg-gray-800 text-xs transition-all cursor-pointer min-h-[44px] flex-1 sm:flex-none">
-                {bulkGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-                <span>Bulk Vision AI ({selectedIds.length})</span>
-              </button>
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 active:scale-95 disabled:bg-gray-100 dark:disabled:bg-gray-800 text-xs transition-all cursor-pointer min-h-[44px] flex-1 sm:flex-none">
+                  {bulkGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                  <span>Bulk Vision AI ({selectedIds.length})</span>
+                </button>
               </>
             )}
             {mainTab === 'library' && (
@@ -1335,208 +1334,208 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
       {(mode === 'library' && mainTab === 'library') || mode === 'selector' ? (
         <>
           <div className={mode === 'selector' ? 'flex-1 overflow-y-auto px-6 pt-6 space-y-6' : 'contents'}>
-          {/* Vision AI + Select All bar */}
-          {mode === 'library' && (
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
-              <div className="flex items-center justify-between w-full md:w-auto p-2 bg-gray-50/50 dark:bg-gray-900/30 rounded-xl border border-gray-100 dark:border-gray-800 min-h-[50px] px-4">
-                <div className="mr-8">
-                  <span className="text-sm font-bold text-gray-950 dark:text-white">Auto Vision Tagging</span>
-                  <span className="text-[10px] text-gray-400 block leading-none mt-0.5">Analyze and add alt tags automatically on upload.</span>
+            {/* Vision AI + Select All bar */}
+            {mode === 'library' && (
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
+                <div className="flex items-center justify-between w-full md:w-auto p-2 bg-gray-50/50 dark:bg-gray-900/30 rounded-xl border border-gray-100 dark:border-gray-800 min-h-[50px] px-4">
+                  <div className="mr-8">
+                    <span className="text-sm font-bold text-gray-950 dark:text-white">Auto Vision Tagging</span>
+                    <span className="text-[10px] text-gray-400 block leading-none mt-0.5">Analyze and add alt tags automatically on upload.</span>
+                  </div>
+                  <input type="checkbox" checked={globalAi} onChange={handleGlobalAiToggle}
+                    className="w-10 h-6 rounded-full bg-gray-200 checked:bg-blue-600 appearance-none cursor-pointer transition-all relative after:content-[''] after:absolute after:h-5 after:w-5 after:bg-white after:rounded-full after:top-[2px] after:left-[2px] checked:after:left-[18px] after:transition-all"
+                  />
                 </div>
-                <input type="checkbox" checked={globalAi} onChange={handleGlobalAiToggle}
-                  className="w-10 h-6 rounded-full bg-gray-200 checked:bg-blue-600 appearance-none cursor-pointer transition-all relative after:content-[''] after:absolute after:h-5 after:w-5 after:bg-white after:rounded-full after:top-[2px] after:left-[2px] checked:after:left-[18px] after:transition-all"
-                />
-              </div>
-              {visionApiError && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl text-xs w-full md:w-auto">
-                  <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
-                  <span className="text-red-700 dark:text-red-400 font-medium">{visionApiError}</span>
-                  <button type="button" onClick={() => setVisionApiError(null)} className="ml-auto text-red-400 hover:text-red-600 shrink-0">
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
-              <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-                {(['all', 'generated', 'pending'] as const).map(status => (
-                  <button type="button" key={status} onClick={() => {
-                    setAiFilter(status);
-                    if (status === 'pending') {
-                      const pendingIds = media.filter(m => !m.ai_generated).map(m => m.id);
-                      setSelectedIds(pendingIds);
-                    }
-                  }}
-                    className={`px-4 py-2 rounded-xl text-xs font-semibold border min-h-[38px] flex-1 md:flex-none capitalize transition-all cursor-pointer ${aiFilter === status ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white dark:bg-[#16162a] border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
-                    {status === 'all' ? 'All' : status === 'generated' ? 'AI Tagged' : 'Pending'}
-                  </button>
-                ))}
-                <button type="button" onClick={toggleSelectAll}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 bg-white dark:bg-[#16162a] hover:bg-gray-50 dark:hover:bg-gray-800 min-h-[38px] cursor-pointer">
-                  {selectedIds.length === filteredMedia.length && filteredMedia.length > 0 ? 'Deselect All' : 'Select All'}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Search + Sort + Filters */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-              <div className="w-full sm:w-64">
-                <AdminSearchInput
-                  value={search}
-                  onChange={setSearch}
-                  placeholder="Search filenames..."
-                />
-              </div>
-              <div className="flex bg-gray-100 dark:bg-gray-800/60 p-1 rounded-xl w-full sm:w-auto min-h-[44px] items-center">
-                {(['all', 'image', 'video'] as const).map(type => (
-                  <button key={type} type="button" onClick={() => setTypeFilter(type)}
-                    className={`flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${typeFilter === type ? 'bg-white dark:bg-[#16162a] text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'}`}>
-                    {type === 'all' ? 'All Types' : type === 'image' ? 'Images' : 'Videos'}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
-              {mode === 'selector' && (
-                <label className="flex items-center justify-center gap-2 px-4 py-2 bg-[#1a1a2e] hover:bg-[#2e2e4e] dark:bg-gray-800 dark:hover:bg-gray-700 text-white text-xs font-bold rounded-xl cursor-pointer transition-colors w-full sm:w-auto min-h-[44px]">
-                  <Upload className="h-4 w-4" />
-                  {isUploading ? 'Uploading...' : 'Upload Media'}
-                  <input type="file" multiple={multiple} accept="image/*,video/*" onChange={handleFileUpload} className="hidden" />
-                </label>
-              )}
-              <div className="flex items-center gap-1.5 w-full sm:w-auto">
-                <span className="font-bold text-gray-500 dark:text-gray-400 text-xs">Date:</span>
-                <select value={dateFilter} onChange={e => setDateFilter(e.target.value as any)}
-                  className="w-full sm:w-auto rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] px-3 py-2 text-sm focus:outline-none focus:border-blue-500 text-gray-700 dark:text-gray-300 min-h-[44px] cursor-pointer">
-                  <option value="all">All Time</option>
-                  <option value="today">Today</option>
-                  <option value="yesterday">Yesterday</option>
-                  <option value="last_7">Last 7 Days</option>
-                  <option value="last_30">Last 30 Days</option>
-                </select>
-              </div>
-              <div className="flex items-center gap-1.5 w-full sm:w-auto">
-                <SlidersHorizontal className="h-4 w-4 text-gray-400 hidden sm:block" />
-                <select value={sortBy} onChange={e => setSortBy(e.target.value as any)}
-                  className="w-full sm:w-44 px-3.5 py-2 text-sm bg-white dark:bg-[#16162a] border border-gray-200 dark:border-gray-800 rounded-xl text-gray-700 dark:text-gray-300 focus:outline-none focus:border-blue-500 min-h-[44px] cursor-pointer">
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="size-desc">Size: Big to Small</option>
-                  <option value="size-asc">Size: Small to Big</option>
-                </select>
-              </div>
-              <label className="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 text-xs font-bold border border-gray-200 dark:border-gray-800 rounded-xl p-2 bg-white dark:bg-[#16162a] min-h-[44px]">
-                <input type="checkbox" checked={onlyUnused} onChange={e => setOnlyUnused(e.target.checked)}
-                  className="rounded border-gray-300 dark:border-gray-700 text-[#e94560] focus:ring-[#e94560] h-4 w-4"
-                />
-                <span>Unused Only</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Upload Queue */}
-          {uploadTasks.some(t => t.status !== 'completed' && t.status !== 'cancelled') && (
-            <div className="bg-gray-50/40 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800 p-4 rounded-2xl space-y-3">
-              <h4 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Upload Queue</h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                {uploadTasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').map(t => {
-                  const taskIsVideo = t.file.type.startsWith('video/') || /\.(mp4|mov|webm|m4v|avi|mkv|ogv)$/i.test(t.file.name);
-                  return (
-                    <div key={t.id} className="relative aspect-square rounded-xl overflow-hidden border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] flex flex-col items-center justify-center p-3 text-center">
-                      <div className="text-gray-400 dark:text-gray-600 mb-1.5">
-                        {taskIsVideo ? <Play className="h-6 w-6" /> : <ImageIcon className="h-6 w-6" />}
-                      </div>
-                      <span className="text-[10px] font-semibold text-gray-700 dark:text-gray-300 truncate max-w-full mb-1">{t.file.name}</span>
-                      {t.status === 'uploading' ? (
-                        <div className="w-full flex flex-col items-center gap-1">
-                          <div className="w-full bg-gray-200 dark:bg-gray-800 h-1 rounded-full overflow-hidden">
-                            <div className="bg-blue-600 h-full transition-all duration-300" style={{ width: `${t.progress}%` }} />
-                          </div>
-                          <span className="text-[8px] font-bold text-gray-500">{t.progress}%</span>
-                          <button type="button" onClick={() => handleCancelUpload(t.id)} className="text-[8px] font-bold text-red-500 hover:underline cursor-pointer">Cancel</button>
-                        </div>
-                      ) : t.status === 'failed' ? (
-                        <div className="w-full flex flex-col items-center gap-1">
-                          <span className="text-[8px] font-bold text-red-500 truncate w-full" title={t.error}>{t.error || 'Failed'}</span>
-                          <div className="flex gap-1.5">
-                            <button type="button" onClick={() => handleRetryUpload(t.id)} className="px-1.5 py-0.5 rounded bg-blue-600 text-white text-[8px] font-bold cursor-pointer">Retry</button>
-                            <button type="button" onClick={() => handleCancelUpload(t.id)} className="text-[8px] font-bold text-gray-400 cursor-pointer">Dismiss</button>
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Media Grid */}
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {Array.from({ length: 10 }).map((_, i) => <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800/80 rounded-2xl animate-pulse" />)}
-            </div>
-          ) : filteredMedia.length === 0 ? (
-            <div className="text-center py-16 text-gray-400 bg-white dark:bg-[#16162a] border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm">
-              No media files found matching the search criteria.
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {paginatedMedia.map(item =>
-                  renderMediaCard(
-                    item,
-                    mode === 'selector' ? selectedLibraryUrls.has(item.file_url) : selectedIds.includes(item.id),
-                    () => toggleSelect(item)
-                  )
+                {visionApiError && (
+                  <div className="flex items-center gap-2 px-3 py-2 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl text-xs w-full md:w-auto">
+                    <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
+                    <span className="text-red-700 dark:text-red-400 font-medium">{visionApiError}</span>
+                    <button type="button" onClick={() => setVisionApiError(null)} className="ml-auto text-red-400 hover:text-red-600 shrink-0">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 )}
-              </div>
-              {filteredMedia.length > pageSize && (
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xs mt-4 text-xs font-bold text-gray-700 dark:text-gray-300">
-                  <div className="flex items-center gap-2">
-                    <span>Show per page:</span>
-                    <select
-                      value={pageSize}
-                      onChange={(e) => {
-                        setPageSize(Number(e.target.value));
-                        setCurrentPage(1);
-                      }}
-                      className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] px-2.5 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer"
-                    >
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
-                      <option value={200}>200</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
-                    >
-                      Previous
+                <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                  {(['all', 'generated', 'pending'] as const).map(status => (
+                    <button type="button" key={status} onClick={() => {
+                      setAiFilter(status);
+                      if (status === 'pending') {
+                        const pendingIds = media.filter(m => !m.ai_generated).map(m => m.id);
+                        setSelectedIds(pendingIds);
+                      }
+                    }}
+                      className={`px-4 py-2 rounded-xl text-xs font-semibold border min-h-[38px] flex-1 md:flex-none capitalize transition-all cursor-pointer ${aiFilter === status ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white dark:bg-[#16162a] border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                      {status === 'all' ? 'All' : status === 'generated' ? 'AI Tagged' : 'Pending'}
                     </button>
-                    <span className="px-2">
-                      Page {currentPage} of {Math.ceil(filteredMedia.length / pageSize)}
-                    </span>
-                    <button
-                      type="button"
-                      disabled={currentPage >= Math.ceil(filteredMedia.length / pageSize)}
-                      onClick={() => setCurrentPage(prev => Math.min(Math.ceil(filteredMedia.length / pageSize), prev + 1))}
-                      className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
-                    >
-                      Next
-                    </button>
-                  </div>
-                  <div className="text-gray-500 dark:text-gray-400 font-medium">
-                    Showing {Math.min(filteredMedia.length, (currentPage - 1) * pageSize + 1)}-{Math.min(filteredMedia.length, currentPage * pageSize)} of {filteredMedia.length} files
-                  </div>
+                  ))}
+                  <button type="button" onClick={toggleSelectAll}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 bg-white dark:bg-[#16162a] hover:bg-gray-50 dark:hover:bg-gray-800 min-h-[38px] cursor-pointer">
+                    {selectedIds.length === filteredMedia.length && filteredMedia.length > 0 ? 'Deselect All' : 'Select All'}
+                  </button>
                 </div>
-              )}
-            </>
-          )}
+              </div>
+            )}
+
+            {/* Search + Sort + Filters */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                <div className="w-full sm:w-64">
+                  <AdminSearchInput
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Search filenames..."
+                  />
+                </div>
+                <div className="flex bg-gray-100 dark:bg-gray-800/60 p-1 rounded-xl w-full sm:w-auto min-h-[44px] items-center">
+                  {(['all', 'image', 'video'] as const).map(type => (
+                    <button key={type} type="button" onClick={() => setTypeFilter(type)}
+                      className={`flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${typeFilter === type ? 'bg-white dark:bg-[#16162a] text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'}`}>
+                      {type === 'all' ? 'All Types' : type === 'image' ? 'Images' : 'Videos'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+                {mode === 'selector' && (
+                  <label className="flex items-center justify-center gap-2 px-4 py-2 bg-[#1a1a2e] hover:bg-[#2e2e4e] dark:bg-gray-800 dark:hover:bg-gray-700 text-white text-xs font-bold rounded-xl cursor-pointer transition-colors w-full sm:w-auto min-h-[44px]">
+                    <Upload className="h-4 w-4" />
+                    {isUploading ? 'Uploading...' : 'Upload Media'}
+                    <input type="file" multiple={multiple} accept="image/*,video/*" onChange={handleFileUpload} className="hidden" />
+                  </label>
+                )}
+                <div className="flex items-center gap-1.5 w-full sm:w-auto">
+                  <span className="font-bold text-gray-500 dark:text-gray-400 text-xs">Date:</span>
+                  <select value={dateFilter} onChange={e => setDateFilter(e.target.value as any)}
+                    className="w-full sm:w-auto rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] px-3 py-2 text-sm focus:outline-none focus:border-blue-500 text-gray-700 dark:text-gray-300 min-h-[44px] cursor-pointer">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="last_7">Last 7 Days</option>
+                    <option value="last_30">Last 30 Days</option>
+                  </select>
+                </div>
+                <div className="flex items-center gap-1.5 w-full sm:w-auto">
+                  <SlidersHorizontal className="h-4 w-4 text-gray-400 hidden sm:block" />
+                  <select value={sortBy} onChange={e => setSortBy(e.target.value as any)}
+                    className="w-full sm:w-44 px-3.5 py-2 text-sm bg-white dark:bg-[#16162a] border border-gray-200 dark:border-gray-800 rounded-xl text-gray-700 dark:text-gray-300 focus:outline-none focus:border-blue-500 min-h-[44px] cursor-pointer">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="size-desc">Size: Big to Small</option>
+                    <option value="size-asc">Size: Small to Big</option>
+                  </select>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 text-xs font-bold border border-gray-200 dark:border-gray-800 rounded-xl p-2 bg-white dark:bg-[#16162a] min-h-[44px]">
+                  <input type="checkbox" checked={onlyUnused} onChange={e => setOnlyUnused(e.target.checked)}
+                    className="rounded border-gray-300 dark:border-gray-700 text-[#e94560] focus:ring-[#e94560] h-4 w-4"
+                  />
+                  <span>Unused Only</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Upload Queue */}
+            {uploadTasks.some(t => t.status !== 'completed' && t.status !== 'cancelled') && (
+              <div className="bg-gray-50/40 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800 p-4 rounded-2xl space-y-3">
+                <h4 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Upload Queue</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                  {uploadTasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').map(t => {
+                    const taskIsVideo = t.file.type.startsWith('video/') || /\.(mp4|mov|webm|m4v|avi|mkv|ogv)$/i.test(t.file.name);
+                    return (
+                      <div key={t.id} className="relative aspect-square rounded-xl overflow-hidden border border-dashed border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] flex flex-col items-center justify-center p-3 text-center">
+                        <div className="text-gray-400 dark:text-gray-600 mb-1.5">
+                          {taskIsVideo ? <Play className="h-6 w-6" /> : <ImageIcon className="h-6 w-6" />}
+                        </div>
+                        <span className="text-[10px] font-semibold text-gray-700 dark:text-gray-300 truncate max-w-full mb-1">{t.file.name}</span>
+                        {t.status === 'uploading' ? (
+                          <div className="w-full flex flex-col items-center gap-1">
+                            <div className="w-full bg-gray-200 dark:bg-gray-800 h-1 rounded-full overflow-hidden">
+                              <div className="bg-blue-600 h-full transition-all duration-300" style={{ width: `${t.progress}%` }} />
+                            </div>
+                            <span className="text-[8px] font-bold text-gray-500">{t.progress}%</span>
+                            <button type="button" onClick={() => handleCancelUpload(t.id)} className="text-[8px] font-bold text-red-500 hover:underline cursor-pointer">Cancel</button>
+                          </div>
+                        ) : t.status === 'failed' ? (
+                          <div className="w-full flex flex-col items-center gap-1">
+                            <span className="text-[8px] font-bold text-red-500 truncate w-full" title={t.error}>{t.error || 'Failed'}</span>
+                            <div className="flex gap-1.5">
+                              <button type="button" onClick={() => handleRetryUpload(t.id)} className="px-1.5 py-0.5 rounded bg-blue-600 text-white text-[8px] font-bold cursor-pointer">Retry</button>
+                              <button type="button" onClick={() => handleCancelUpload(t.id)} className="text-[8px] font-bold text-gray-400 cursor-pointer">Dismiss</button>
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Media Grid */}
+            {loading ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {Array.from({ length: 10 }).map((_, i) => <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800/80 rounded-2xl animate-pulse" />)}
+              </div>
+            ) : filteredMedia.length === 0 ? (
+              <div className="text-center py-16 text-gray-400 bg-white dark:bg-[#16162a] border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm">
+                No media files found matching the search criteria.
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {paginatedMedia.map(item =>
+                    renderMediaCard(
+                      item,
+                      mode === 'selector' ? selectedLibraryUrls.has(item.file_url) : selectedIds.includes(item.id),
+                      () => toggleSelect(item)
+                    )
+                  )}
+                </div>
+                {filteredMedia.length > pageSize && (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-[#16162a] p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xs mt-4 text-xs font-bold text-gray-700 dark:text-gray-300">
+                    <div className="flex items-center gap-2">
+                      <span>Show per page:</span>
+                      <select
+                        value={pageSize}
+                        onChange={(e) => {
+                          setPageSize(Number(e.target.value));
+                          setCurrentPage(1);
+                        }}
+                        className="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#16162a] px-2.5 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer"
+                      >
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                        <option value={200}>200</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                        className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                      >
+                        Previous
+                      </button>
+                      <span className="px-2">
+                        Page {currentPage} of {Math.ceil(filteredMedia.length / pageSize)}
+                      </span>
+                      <button
+                        type="button"
+                        disabled={currentPage >= Math.ceil(filteredMedia.length / pageSize)}
+                        onClick={() => setCurrentPage(prev => Math.min(Math.ceil(filteredMedia.length / pageSize), prev + 1))}
+                        className="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                      >
+                        Next
+                      </button>
+                    </div>
+                    <div className="text-gray-500 dark:text-gray-400 font-medium">
+                      Showing {Math.min(filteredMedia.length, (currentPage - 1) * pageSize + 1)}-{Math.min(filteredMedia.length, currentPage * pageSize)} of {filteredMedia.length} files
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
 
           </div>
           {/* Selector Footer */}
@@ -1554,6 +1553,15 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
 
       {/* ── CLEANER TAB ─────────────────────────────────────────────────── */}
       {mode === 'library' && mainTab === 'cleaner' && renderCleanerTab()}
+
+      {/* ── IMAGE PREVIEW MODAL ──────────────────────────────────────────── */}
+      {previewItem && (
+        <RichMediaPreviewModal
+          item={previewItem}
+          onClose={() => setPreviewItem(null)}
+          mode={mode}
+        />
+      )}
 
       {/* ── EDIT METADATA MODAL ──────────────────────────────────────────── */}
       {mode === 'library' && editingItem && typeof document !== 'undefined' && createPortal(
