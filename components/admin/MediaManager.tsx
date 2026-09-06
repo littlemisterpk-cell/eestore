@@ -181,12 +181,12 @@ export default function MediaManager({ mode, onSelect, multiple = false, onClose
       setUsageLoading(true);
       const supabase = createClient();
       const [cats, variants, sizeGuides, settings, sections, productImgs] = await Promise.all([
-        supabase.from('categories').select('image_url'),
-        supabase.from('product_variants').select('image_url'),
-        supabase.from('size_guides').select('image_url'),
+        supabase.from('categories').select('image_url').is('deleted_at', null),
+        supabase.from('product_variants').select('image_url, products!inner(deleted_at)').is('products.deleted_at', null),
+        supabase.from('size_guides').select('image_url').is('deleted_at', null),
         supabase.from('store_settings').select('logo_url, favicon_url, banner_url, exit_intent_image_url').single(),
         supabase.from('homepage_sections').select('settings, content_data'),
-        supabase.from('product_images').select('url'),
+        supabase.from('product_images').select('url, products!inner(deleted_at)').is('products.deleted_at', null),
       ]);
 
       const rawUrls: string[] = [];
