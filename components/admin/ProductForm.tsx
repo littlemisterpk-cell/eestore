@@ -48,25 +48,7 @@ interface ProductFormProps {
   storeUrl?: string;
 }
 
-const standardColorMap: Record<string, string> = {
-  black: '#000000',
-  white: '#ffffff',
-  red: '#e94560',
-  blue: '#1a1a2e',
-  navy: '#1a1a2e',
-  grey: '#9ca3af',
-  gray: '#9ca3af',
-  green: '#10b981',
-  yellow: '#f59e0b',
-  orange: '#f97316',
-  purple: '#a855f7',
-  pink: '#ec4899',
-  beige: '#f5f5dc',
-  brown: '#a52a2a',
-  gold: '#ffd700',
-  silver: '#c0c0c0',
-  cream: '#fffdd0'
-};
+import { extractColorsFromName } from '@/lib/utils/swatch';
 
 function SortableImageItem({
   img,
@@ -1668,7 +1650,7 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                               {axis.type === 'color' && (
                                 <span
                                   className="flex-shrink-0 h-3.5 w-3.5 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm"
-                                  style={{ background: (val as any).hex || '#ccc' }}
+                                  style={getSwatchStyle((val as any).hex || '#ccc')}
                                 />
                               )}
                               <span className="whitespace-nowrap">{val.label}</span>
@@ -1703,8 +1685,7 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                                 const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
                                 parts.forEach(label => {
                                   if (!axis.values.find(v => v.label === label)) {
-                                    const lowerLabel = label.toLowerCase();
-                                    const hex = axis.type === 'color' ? (standardColorMap[lowerLabel] || '#888888') : undefined;
+                                    const hex = axis.type === 'color' ? (extractColorsFromName(label) || '#888888') : undefined;
                                     setVariantAxes(prev => prev.map((a, i) =>
                                       i === axisIdx ? { ...a, values: [...a.values, { label, hex }] } : a
                                     ));
@@ -1723,8 +1704,7 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                               const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
                               parts.forEach(label => {
                                 if (!axis.values.find(v => v.label === label)) {
-                                  const lowerLabel = label.toLowerCase();
-                                  const hex = axis.type === 'color' ? (standardColorMap[lowerLabel] || '#888888') : undefined;
+                                  const hex = axis.type === 'color' ? (extractColorsFromName(label) || '#888888') : undefined;
                                   setVariantAxes(prev => prev.map((a, i) =>
                                     i === axisIdx ? { ...a, values: [...a.values, { label, hex }] } : a
                                   ));
