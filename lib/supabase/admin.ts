@@ -6,5 +6,8 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder
 export const supabaseAdmin = createClient(
   supabaseUrl,
   supabaseServiceKey,
-  { auth: { autoRefreshToken: false, persistSession: false } }
+  { 
+    auth: { autoRefreshToken: false, persistSession: false },
+    global: { fetch: (url, init) => fetch(url, { ...init, cache: 'no-store' }) }
+  }
 );

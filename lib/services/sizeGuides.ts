@@ -8,7 +8,7 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
 
-const staticSupabase = createSupabaseClient(supabaseUrl, supabaseAnonKey);
+const staticSupabase = createSupabaseClient(supabaseUrl, supabaseAnonKey, { global: { fetch: (url, init) => fetch(url, { ...init, cache: 'no-store' }) } });
 
 interface SizeGuideRow {
   id: string;
