@@ -1600,7 +1600,7 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                                 onClick={() => {
                                   const newValues = preset.values.map(v => ({
                                     label: v.label,
-                                    hex: v.hex,
+                                    hex: preset.attribute === 'color' ? (v.hex && v.hex !== '#888888' ? v.hex : extractColorsFromName(v.label) || '#888888') : v.hex,
                                     imageUrl: v.imageUrl
                                   }));
                                   setVariantAxes(prev => prev.map((a, i) =>
@@ -1685,7 +1685,10 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                                 const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
                                 parts.forEach(label => {
                                   if (!axis.values.find(v => v.label === label)) {
-                                    const hex = axis.type === 'color' ? (extractColorsFromName(label) || '#888888') : undefined;
+                                    const hex = axis.type === 'color' ? (
+                                      presets.filter(p => p.attribute === 'color').flatMap(p => p.values).find(v => v.label.toLowerCase() === label.toLowerCase())?.hex
+                                      || extractColorsFromName(label) || '#888888'
+                                    ) : undefined;
                                     setVariantAxes(prev => prev.map((a, i) =>
                                       i === axisIdx ? { ...a, values: [...a.values, { label, hex }] } : a
                                     ));
@@ -1704,7 +1707,10 @@ export default function ProductForm({ categories, initialProduct, aiEnabled, sto
                               const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
                               parts.forEach(label => {
                                 if (!axis.values.find(v => v.label === label)) {
-                                  const hex = axis.type === 'color' ? (extractColorsFromName(label) || '#888888') : undefined;
+                                  const hex = axis.type === 'color' ? (
+                                    presets.filter(p => p.attribute === 'color').flatMap(p => p.values).find(v => v.label.toLowerCase() === label.toLowerCase())?.hex
+                                    || extractColorsFromName(label) || '#888888'
+                                  ) : undefined;
                                   setVariantAxes(prev => prev.map((a, i) =>
                                     i === axisIdx ? { ...a, values: [...a.values, { label, hex }] } : a
                                   ));
